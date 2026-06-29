@@ -1,0 +1,25 @@
+server:
+  port: ${port:8072}
+
+app:
+  jwt:
+    secret: this-is-my-super-secret-key-that-is-at-least-32-bytes
+
+spring:
+  application:
+    name: realize-challenge
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://your-identity-provider.com/auth/realms/myrealm
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          thread:
+            timeoutInMilliseconds: 8000
