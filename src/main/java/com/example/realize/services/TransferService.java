@@ -16,6 +16,7 @@ import java.util.UUID;
 public class TransferService {
     private final TransferRepository transferRepository;
     private final AccountService accountService;
+    private final CacheService cacheService;
 
     public void transferFunds(
             String incomingAccountId,
@@ -23,7 +24,9 @@ public class TransferService {
             Integer amountToTransfer,
             String idempotencyKey
     ) {
-        // idempotencyKey
+        var cachedTransfer = cacheService.get(idempotencyKey);
+
+        if(cachedTransfer != null) return;
 
         Account outcomingAccount = accountService.getAccount(UUID.fromString(outcomingAccountId));
         Account incomingAccount = accountService.getAccount(UUID.fromString(incomingAccountId));
@@ -44,8 +47,13 @@ public class TransferService {
             transfer.setStatus(TransferStatus.error);
         }
 
+        cacheService.set(idempotencyKey, "", 1);
         transferRepository.save(transfer);
+        this.sendNotification();
+    }
 
-        // send notification
+    public void sendNotification() {
+        // send the notification to a queue and process it individually, this way the message could be sent with the
+        // preferred rule for the company
     }
 }
