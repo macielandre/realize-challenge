@@ -22,11 +22,21 @@ public class Transfer {
     private int amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "incoming_account_id", referencedColumnName = "id", nullable = false, unique = true)
+    @JoinColumn(
+            name = "incoming_account_id",
+            referencedColumnName = "id",
+            nullable = false,
+            columnDefinition = "BINARY(16)"
+    )
     private Account incomingAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "outcoming_account_id", referencedColumnName = "id", nullable = false, unique = true)
+    @JoinColumn(
+            name = "outcoming_account_id",
+            referencedColumnName = "id",
+            nullable = false,
+            columnDefinition = "BINARY(16)"
+    )
     private Account outcomingAccount;
 
     @Enumerated(EnumType.STRING)

@@ -36,7 +36,7 @@ public class TransferController {
                             name = "Idempotency-Key",
                             in = ParameterIn.HEADER,
                             description = "Unique UUID string to prevent duplicate transfer processing",
-                            required = true,
+                            required = false,
                             schema = @Schema(type = "string", format = "uuid")
                     )
             }
@@ -52,7 +52,7 @@ public class TransferController {
             @Valid @RequestBody TransferRequestDto request
     ) {
         transferService.transferFunds(
-                jwt.getId(),
+                jwt.getSubject(),
                 request.getOutcomingAccountId(),
                 request.getAmountToTransfer(),
                 idempotencyKey

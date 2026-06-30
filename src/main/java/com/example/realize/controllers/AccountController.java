@@ -1,5 +1,6 @@
 package com.example.realize.controllers;
 
+import com.example.realize.dto.models.Account;
 import com.example.realize.dto.requests.AccountCreationRequestDto;
 import com.example.realize.dto.responses.AccountGetResponse;
 import com.example.realize.services.AccountService;
@@ -45,6 +46,8 @@ public class AccountController {
     public ResponseEntity<AccountGetResponse> getAccount(
             @AuthenticationPrincipal Jwt jwt
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(accountService.getAccount(UUID.fromString(jwt.getSubject())));
+        Account account = accountService.getAccount(UUID.fromString(jwt.getSubject()));
+        AccountGetResponse response = accountService.parseAccountGetResponse(account);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

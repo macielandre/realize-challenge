@@ -6,6 +6,9 @@ import com.example.realize.exceptions.ResourceNotFoundException;
 import com.example.realize.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
+
 import java.util.UUID;
 
 @Service
@@ -22,10 +25,9 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public AccountGetResponse getAccount(UUID id) {
-        Account account = accountRepository.findById(id)
+    public Account getAccount(UUID id) {
+        return accountRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account with id " + id + " does not exist"));
-        return this.parseAccountGetResponse(account.getName(), account.getId(), account.getBalance());
     }
 
     public Account parseAccountEntity(
@@ -40,11 +42,24 @@ public class AccountService {
         return account;
     }
 
-    public AccountGetResponse parseAccountGetResponse(
-            String name,
-            UUID id,
-            Integer balance
+    public AccountGetResponse parseAccountGetResponse(Account account) {
+        return new AccountGetResponse(account.getName(), account.getId(), account.getBalance());
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateAccountBalance(
+            Account outcomingAccount,
+            Account incomingAccount,
+            Integer amountToTransfer
     ) {
-        return new AccountGetResponse(name, id, balance);
+        if (outcomingAccount.getBalance() < amountToTransfer) {
+            throw new IllegalStateException("Insufficient funds for this transfer");
+        }
+
+        outcomingAccount.setBalance(outcomingAccount.getBalance() - amountToTransfer);
+        incomingAccount.setBalance(incomingAccount.getBalance() + amountToTransfer);
+
+        accountRepository.save(outcomingAccount);
+        accountRepository.save(incomingAccount);
     }
 }
