@@ -6,6 +6,10 @@ app:
     secret: this-is-my-super-secret-key-that-is-at-least-32-bytes
 
 spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
   application:
     name: realize-challenge
   security:
@@ -13,7 +17,20 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://your-identity-provider.com/auth/realms/myrealm
-
+  datasource:
+    url: jdbc:mysql://localhost:3306/realize?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      jakarta.persistence.bean.manager: flyway
+      hibernate.format_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: false
 hystrix:
   command:
     default:
