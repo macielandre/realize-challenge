@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -34,12 +34,12 @@ public class CacheServiceTest {
         Boolean expectedResult = true;
 
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        when(valueOperations.setIfAbsent(key, value, timeout, TimeUnit.MINUTES)).thenReturn(expectedResult);
+        when(valueOperations.setIfAbsent(key, value, Duration.ofMinutes(timeout))).thenReturn(expectedResult);
 
         Object actualResult = cacheService.set(key, value, timeout);
 
         assertEquals(expectedResult, actualResult);
         verify(redisTemplate, times(1)).opsForValue();
-        verify(valueOperations, times(1)).setIfAbsent(key, value, timeout, TimeUnit.MINUTES);
+        verify(valueOperations, times(1)).setIfAbsent(key, value, Duration.ofMinutes(timeout));
     }
 }

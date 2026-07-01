@@ -26,7 +26,7 @@ public class TransferService {
     ) {
         var cachedTransfer = cacheService.set(idempotencyKey, "", 1);
 
-        if(cachedTransfer != null) return;
+        if(cachedTransfer == false) return;
 
         Account outcomingAccount = accountService.getAccount(UUID.fromString(outcomingAccountId));
         Account incomingAccount = accountService.getAccount(UUID.fromString(incomingAccountId));

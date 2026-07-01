@@ -40,7 +40,7 @@ public class TransferServiceTest {
     @Test
     public void transferFunds_WhenIdempotencyKeyExistsInCache_ShouldReturnEarly() {
         String idempotencyKey = UUID.randomUUID().toString();
-        when(cacheService.set(idempotencyKey, "", 1)).thenReturn("existing-cache-value");
+        when(cacheService.set(idempotencyKey, "", 1L)).thenReturn(false);
 
         transferService.transferFunds(
                 UUID.randomUUID().toString(),
@@ -49,7 +49,7 @@ public class TransferServiceTest {
                 idempotencyKey
         );
 
-        verify(cacheService, times(1)).set(idempotencyKey, "", 1);
+        verify(cacheService, times(1)).set(idempotencyKey, "", 1L);
         verifyNoInteractions(accountService);
         verifyNoInteractions(transferRepository);
         verify(transferService, never()).sendNotification();
@@ -65,7 +65,7 @@ public class TransferServiceTest {
         Account mockIncoming = new Account();
         Account mockOutcoming = new Account();
 
-        when(cacheService.set(idempotencyKey, "", 1)).thenReturn(null);
+        when(cacheService.set(idempotencyKey, "", 1L)).thenReturn(true);
         when(accountService.getAccount(incomingId)).thenReturn(mockIncoming);
         when(accountService.getAccount(outcomingId)).thenReturn(mockOutcoming);
 
@@ -103,7 +103,7 @@ public class TransferServiceTest {
         Account mockIncoming = new Account();
         Account mockOutcoming = new Account();
 
-        when(cacheService.set(idempotencyKey, "", 1)).thenReturn(null);
+        when(cacheService.set(idempotencyKey, "", 1L)).thenReturn(true);
         when(accountService.getAccount(incomingId)).thenReturn(mockIncoming);
         when(accountService.getAccount(outcomingId)).thenReturn(mockOutcoming);
         doThrow(new RuntimeException("Inbound balance mismatch")).when(accountService)

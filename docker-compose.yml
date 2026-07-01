@@ -1,37 +1,37 @@
 services:
-  api:
-    build: .
-    container_name: spring_api
-    restart: always
-    ports:
-      - "8072:8072"
-    depends_on:
-      - db
-      - redis
-    environment:
-      - SERVER_PORT=8072
-      - APP_JWT_SECRET=this-is-my-super-secret-key-that-is-at-least-32-bytes
-      - SPRING_APPLICATION_NAME=realize-challenge
-
-      - SPRING_DATA_REDIS_HOST=redis
-      - SPRING_DATA_REDIS_PORT=6379
-
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=https://your-identity-provider.com/auth/realms/myrealm
-
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/realize?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
-
-      - SPRING_JPA_SHOW_SQL=false
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
-      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE_BEAN_MANAGER=flyway
-      - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=true
-
-      - SPRING_FLYWAY_ENABLED=true
-      - SPRING_FLYWAY_CLEAN_ON_VALIDATION_ERROR=true
-
-      - HYSTRIX_COMMAND_DEFAULT_EXECUTION_TIMEOUT_ENABLED=false
-      - HYSTRIX_COMMAND_DEFAULT_EXECUTION_ISOLATION_THREAD_TIMEOUTINMILLISECONDS=8000
+#  api:
+#    build: .
+#    container_name: spring_api
+#    restart: always
+#    ports:
+#      - "8072:8072"
+#    depends_on:
+#      - db
+#      - redis
+#    environment:
+#      - SERVER_PORT=8072
+#      - APP_JWT_SECRET=this-is-my-super-secret-key-that-is-at-least-32-bytes
+#      - SPRING_APPLICATION_NAME=realize-challenge
+#
+#      - SPRING_DATA_REDIS_HOST=redis
+#      - SPRING_DATA_REDIS_PORT=6379
+#
+#      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=https://your-identity-provider.com/auth/realms/myrealm
+#
+#      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/realize?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+#      - SPRING_DATASOURCE_USERNAME=root
+#      - SPRING_DATASOURCE_PASSWORD=root
+#
+#      - SPRING_JPA_SHOW_SQL=false
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+#      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE_BEAN_MANAGER=flyway
+#      - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=true
+#
+#      - SPRING_FLYWAY_ENABLED=true
+#      - SPRING_FLYWAY_CLEAN_ON_VALIDATION_ERROR=true
+#
+#      - HYSTRIX_COMMAND_DEFAULT_EXECUTION_TIMEOUT_ENABLED=false
+#      - HYSTRIX_COMMAND_DEFAULT_EXECUTION_ISOLATION_THREAD_TIMEOUTINMILLISECONDS=8000
 
   db:
     image: mysql
@@ -42,8 +42,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: realize
-    volumes:
-      - db_data:/var/lib/mysql
 
   redis:
     image: redis:alpine
@@ -56,4 +54,3 @@ services:
 
 volumes:
   redis_data:
-  db_data:
