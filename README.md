@@ -1,19 +1,19 @@
 # Teste Java Realize
 ### Utilizando a api
 
-1. Instalar java 25 localmente
-2. Iniciar seu docker local
-3. Rodar o comando
+- Instalar java 25 localmente
+- Iniciar seu docker local
+- Rodar o comando
 
 `docker compose up`
 
-4 . Acessar  o swagger 
+- Acessar  o swagger 
 
 `http://localhost:8072/swagger-ui/index.html#/`
 
-5 . Utilizar a rota POST /api/public/account para criar uma conta
-6 . Utilizar o id da conta retornado na request anterior para gerar um token na request GET /api/public/token
-7 . Utilizar as rotas enviando esse token gerado como bearer
+- Utilizar a rota POST /api/public/account para criar uma conta
+- Utilizar o id da conta retornado na request anterior para gerar um token na request GET /api/public/token
+- Utilizar as rotas enviando esse token gerado como bearer
 
 ### Decisoes técnicas
 
