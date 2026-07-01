@@ -11,15 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class CacheService {
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public void set(String key, Object value, long timeoutInMinutes) {
-        redisTemplate.opsForValue().set(key, value, timeoutInMinutes, TimeUnit.MINUTES);
-    }
-
-    public Object get(String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
-
-    public void delete(String key) {
-        redisTemplate.delete(key);
+    public Object set(String key, Object value, long timeoutInMinutes) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value, timeoutInMinutes, TimeUnit.MINUTES);
     }
 }

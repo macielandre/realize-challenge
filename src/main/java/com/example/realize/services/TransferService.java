@@ -24,7 +24,7 @@ public class TransferService {
             Integer amountToTransfer,
             String idempotencyKey
     ) {
-        var cachedTransfer = cacheService.get(idempotencyKey);
+        var cachedTransfer = cacheService.set(idempotencyKey, "", 1);
 
         if(cachedTransfer != null) return;
 
@@ -47,7 +47,6 @@ public class TransferService {
             transfer.setStatus(TransferStatus.error);
         }
 
-        cacheService.set(idempotencyKey, "", 1);
         transferRepository.save(transfer);
         this.sendNotification();
     }
