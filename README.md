@@ -25,4 +25,3 @@
 - Separacao de pastas utilizando um MVC básico para manter o projeto simples.
 - Mysql por ser um banco de dados prático e muito resiliente em cenários de alta concorrencia.
 - Utilizacao de token jwt para utilizar dados inseridos no próprio token para garantir seguranca e nao permitir açoes inesperadas em contas indevidas.
-- 
