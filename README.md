@@ -1,9 +1,9 @@
 # Teste Java Realize
 ### Utilizando a api
 
-1 . Instalar java 25 localmente
-2 . Iniciar seu docker local
-3 . Rodar o comando
+1. Instalar java 25 localmente
+2. Iniciar seu docker local
+3. Rodar o comando
 
 `docker compose up`
 
